@@ -1,0 +1,49 @@
+openapi: 3.1.0
+info:
+  title: COCUP Visual Engine
+  version: 2.0.0
+  description: Locked-template COCUP match-result image generator.
+servers:
+  - url: https://YOUR-VERCEL-DOMAIN.vercel.app
+paths:
+  /api/generate:
+    post:
+      operationId: generateMatchResult
+      summary: Generate a COCUP match result graphic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [team1, score1, team2, score2]
+              properties:
+                team1:
+                  type: string
+                score1:
+                  type: integer
+                  minimum: 0
+                  maximum: 4
+                team2:
+                  type: string
+                score2:
+                  type: integer
+                  minimum: 0
+                  maximum: 4
+                winnerFirst:
+                  type: boolean
+                  default: true
+      responses:
+        '200':
+          description: Generated image link
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  team1: { type: string }
+                  score1: { type: integer }
+                  team2: { type: string }
+                  score2: { type: integer }
+                  image_url: { type: string, format: uri }
